@@ -277,16 +277,16 @@ void benchmark(u64 size, LayeredVbyteArray a, u64 n) {
 		ints.push_back(d(g));
 	}
 
-	// system_clock used instead of high_resolution_clock due to visual studio compatibility
-	auto begin = chrono::system_clock::now();
+	chrono::high_resolution_clock::time_point start = chrono::high_resolution_clock::now();
 
 	for (int i : ints) {
 		a.accessScan(i);
 	}
 
-	chrono::duration<double> time = chrono::system_clock::now() - begin;
+	chrono::high_resolution_clock::time_point end = chrono::high_resolution_clock::now();
+	chrono::duration<double> dur = chrono::duration_cast<chrono::duration<double>>(end - start);
 	cout << fixed << setprecision(9);
-	cout << n << " accessScan operations took: " << time.count() << "s\n";
+	cout << n << " accessScan operations took: " << dur.count() << "s\n";
 }
 
 int main(int argc, char** argv) {
